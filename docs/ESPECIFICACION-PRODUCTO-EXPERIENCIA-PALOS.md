@@ -92,7 +92,7 @@ Por tanto:
 
 1. **3 segundos máximo** para registrar score básico.  
 2. Targets ≥ 44×44 pt; zonas críticas ≥ 56 pt.  
-3. Alto contraste; modo sol (light high-contrast) por defecto en campo.  
+3. Alto contraste. La piel por defecto es el monocromo claro de Fairway 4.x (tinta negra sobre fondo agrupado `#F2F2F7`).  
 4. Acciones principales con el pulgar (zona inferior).  
 5. Cero dependencia de red para anotar.  
 6. Háptica sutil en confirmaciones; nunca spam.  
@@ -108,60 +108,71 @@ Por tanto:
 6. **Retención por memoria** — historial, rivalidades, récords; no daily streak punitivo.  
 7. **Mobile-first iPhone** — diseñar para 6.1–6.7"; adaptar tablet después.
 
-## 2.3 Design system — PALOS Visual Language
+## 2.3 Design system — estética alineada a Fairway 4.x (Apple HIG)
 
-### Color (CSS variables conceptuales)
+**Nota de alineación:** la capa visual de `palos-pwa` adopta el Apple HIG de **Fairway 4.x** (`app-golf` `main`, 4.0.1–4.0.4). No al revés. No se importa iconografía de marca de otra app.
+
+Fairway 4.0.1 fija piel **monocromo glass claro**: fondo agrupado iOS, cristal, acento negro, sin verde de marca. El verde bosque, la arena y Fraunces de borradores anteriores no forman parte de 4.x. El único verde es el verde de sistema Apple, y solo en semántica de score (birdie / bajo par).
+
+### Tokens (Fairway 4.x)
+
+Light, igual que Fairway 4.0.4:
 
 ```
---fairway-ink:        #0E1A14;   /* texto principal light */
---fairway-deep:       #143D2E;   /* verde bosque marca */
---fairway-mid:        #2F6B4F;
---fairway-soft:       #E7F0EA;
---sand:               #C6A96B;   /* acento metálico soberbio, no dorado chillón */
---clay:               #8B5E3C;
---fog:                #F3F5F2;   /* fondo light */
---mist:               #D7DDD8;
---night:              #0B1210;   /* fondo dark */
---night-elev:         #15201C;
---danger:             #B42318;
---success:            #1F7A4C;
---warning:            #B7791F;
+--bg:                 #F2F2F7;   /* systemGroupedBackground */
+--glass-bg:           rgba(255,255,255,0.72);
+--glass-blur:         28px;      /* saturate(180%) */
+--ink:                #000000;
+--ink-secondary:      rgba(60,60,67,0.60);
+--tint:               #000000;   /* pressed #3A3A3C */
+--separator:          rgba(0,0,0,0.12);
+--fill:               rgba(120,120,128,0.12);
+--semantic-under:     #34C759;   /* systemGreen */
+--semantic-over:      #FF3B30;   /* systemRed */
+--r-sm / md / lg:     8 / 10 / 12 px;
+--glass-r-chip:       12px;
+--glass-r-card:       16px;
+--glass-r-sheet:      20px;
+--r-pill:             999px;
+--font:               -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+--pad-x:              16px;
+--tab-h:              49px;
 ```
 
-**Dirección visual:** verde bosque + tinta + arena. **Prohibido** púrpura genérico, crema terracotta AI-default, glow neon, pills saturadas.
+Dark: Fairway 4.x no publica modo oscuro (retiró el clubhouse). PALOS sigue `prefers-color-scheme` con el mismo monocromo invertido al HIG oscuro: fondo `#000000`, elevado `#1C1C1E`, cristal `rgba(28,28,30,0.72)`, acento blanco, verde `#30D158`, rojo `#FF453A`.
 
-Fondo: textura sutil de papel/linen al 3–5% opacidad + gradiente vertical `fog → soft`. En dark: `night` con elevación `night-elev`.
+**Prohibido** púrpura genérico, crema terracotta, glow neon y píldoras saturadas. El acento de marca no es verde.
 
 ### Tipografía
 
-- **Display / marca:** *Fraunces* (serif expresiva, optical size) — logo, scores grandes, títulos de sección.  
-- **UI / cuerpo:** *Söhne* o *Instrument Sans* (sans geométrica contemporánea). Fallback sistema: SF Pro solo si licencia no disponible en prototipo; documentar swap.  
-- Escala: 12 / 14 / 16 / 20 / 28 / 40 / 56. Score del hoyo en **56–64**.  
-- Tracking ligeramente negativo en display (−1%).
+- Una familia de sistema (SF Pro / `-apple-system`). Sin Fraunces ni Instrument Sans.  
+- Large title 34 / title 22 / body 17 / callout 15 / footnote 13 / caption 12 / tab 10.  
+- Score del hoyo: **52** px, cifras tabulares (Fairway 4.0.4).  
+- Tracking de títulos cercano a −0.4 px.
 
-### Espaciado y layout
+### Espaciado, radios, materiales
 
-- Base 4 pt. Escala: 4, 8, 12, 16, 24, 32, 48.  
-- Márgenes laterales 20 pt.  
-- Separación de secciones 32–48.  
-- **No cards en hero.** Cards solo cuando contienen interacción (selector de jugador, challenge chip editable).  
-- Radio: 8 (controles) / 12 (sheets) / 0 en elementos tipográficos de marca.
+- Base 4 pt. Márgenes laterales 16 pt.  
+- Listas inset y cards: radio 16, hairline 0.5 px, blur 18–28 px, sombra suave.  
+- Botón primario: relleno negro (blanco en dark), alto 50, radio 12, 17/600. El sólido se reserva al CTA principal.  
+- Chip seleccionado: hairline del acento + relleno ~6%. No relleno verde.  
+- Tab bar: cristal, blur 32 px, etiqueta 10 px, activo en el acento.
 
 ### Iconografía
 
-- Línea 1.5 pt, esquinas afiladas suaves, estilo “instrumentación deportiva”.  
-- Set propio: tee, flag, putter arc, fairway wedge, birdie chevron.  
+- Tab bar con trazo genérico de sistema (casa, bandera, reloj, cuadrícula). Trazo ~1.75.  
+- Sin iconografía iron-head ni marca de otra app.  
+- Badge Social: cápsula de acento al 8%, no oro.  
 - No emojis en UI primaria.
 
-### Modo claro / oscuro / sol
+### Modo claro / oscuro
 
 | Modo | Uso |
 |---|---|
-| Light (default campo) | Contraste alto, fondos claros, tinta oscura |
-| Dark | Casa / noche / batería |
-| Sun Boost | Light + +20% contraste + botones rellenos negros |
+| Light (default) | Tokens de Fairway 4.0.4: agrupado `#F2F2F7`, tinta negra, cristal |
+| Dark | Si el sistema está en oscuro. Monocromo glass invertido, no verde bosque |
 
-Auto-sugerir Sun Boost si brillo > umbral (V1); toggle manual en MVP.
+Sun Boost no está en Fairway 4.x y no forma parte de esta piel. El contraste del monocromo claro cubre el campo.
 
 ### Componentes core
 
@@ -198,7 +209,7 @@ Auto-sugerir Sun Boost si brillo > umbral (V1); toggle manual en MVP.
 
 - Dynamic Type hasta XXXL en score y CTAs.  
 - VoiceOver labels en ScorePad (“cuatro golpes”).  
-- Contraste WCAG AA mínimo; Sun Boost AAA en texto crítico.  
+- Contraste WCAG AA mínimo en texto crítico.  
 - Reduce Motion: desactivar confeti y slides.  
 - No información solo por color (birdie = chevron + color).
 
@@ -357,7 +368,7 @@ El motor ejecuta en orden:
 ├─────────────────────────────┤
 │  MIGUEL          vs PAR  −1 │  Player context (swipe players)
 │                             │
-│           4                 │  Score grande (Fraunces 64)
+│           4                 │  Score grande (SF 52, tabular)
 │        golpes               │
 │                             │
 │  [ − ]     [ ScorePad ] [+] │  o teclado dedicado
@@ -1128,7 +1139,7 @@ Objetivo: prototipo iPhone usable en una vuelta real con amigos.
 
 ## 22.4 No bloqueantes estéticos
 
-Fraunces + Instrument Sans; si tipografías no licenciadas en prototipo, SF Pro + New York con tokens listos para swap.
+Tipografía de sistema (SF Pro / `-apple-system`), alineada a Fairway 4.x. Sin Fraunces ni Instrument Sans.
 
 ---
 

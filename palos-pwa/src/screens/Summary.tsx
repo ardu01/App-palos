@@ -84,9 +84,11 @@ export function Summary() {
             <div className="row" key={p.id} style={{ flexDirection: 'column', alignItems: 'stretch' }}>
               <strong>{p.name}</strong>
               <div className="meta">
-                {st.vsPar == null ? '—' : st.vsPar >= 0 ? `+${st.vsPar}` : st.vsPar} · Birdies{' '}
-                {st.birdies} · Putts {st.putts ?? '—'} · GIR {st.girPct == null ? '—' : `${st.girPct}%`} ·
-                FIR {st.firPct == null ? '—' : `${st.firPct}%`}
+                <span className={st.vsPar == null ? '' : st.vsPar < 0 ? 'under' : st.vsPar > 0 ? 'over' : ''}>
+                  {st.vsPar == null ? '—' : st.vsPar >= 0 ? `+${st.vsPar}` : st.vsPar}
+                </span>
+                {' · '}Birdies {st.birdies} · Putts {st.putts ?? '—'} · GIR{' '}
+                {st.girPct == null ? '—' : `${st.girPct}%`} · FIR {st.firPct == null ? '—' : `${st.firPct}%`}
               </div>
             </div>
           )

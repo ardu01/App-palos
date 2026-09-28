@@ -56,6 +56,8 @@ export function LiveHole() {
   }
 
   const firNa = hole.par === 3
+  const scoreTone =
+    entry.strokes == null ? '' : entry.strokes < hole.par ? 'under' : entry.strokes > hole.par ? 'over' : 'even'
   const missingStats =
     needsPutts &&
     entry.strokes != null &&
@@ -92,7 +94,7 @@ export function LiveHole() {
       </div>
 
       <div className="score-stage">
-        <div className="num" key={entry.strokes ?? 'x'}>
+        <div className={`num ${scoreTone}`} key={entry.strokes ?? 'x'}>
           {entry.strokes ?? '—'}
         </div>
         <div className="caption">golpes</div>

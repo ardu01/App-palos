@@ -11,26 +11,24 @@ export function Home() {
   const last = history[0]
 
   return (
-    <div className="screen" style={{ paddingTop: 0 }}>
-      <section className="hero">
-        <p className="eyebrow" style={{ color: 'rgba(245,248,246,0.75)' }}>
-          Golf · Social games
-        </p>
+    <div className="screen">
+      <header className="home-hero">
+        <p className="eyebrow">Golf · Social games</p>
         <h1 className="brand">PALOS</h1>
+        <p className="lede">Hola, {profileName}</p>
         <p className="lede">Tu vuelta, varias rivalidades.</p>
-        <div className="stack" style={{ marginTop: 28 }}>
-          {live ? (
-            <button className="btn btn-sand" onClick={resumeRound}>
-              Reanudar vuelta
-            </button>
-          ) : null}
-          <button className="btn btn-primary" onClick={() => setScreen('setup')} style={live ? { background: 'rgba(245,248,246,0.14)', border: '1px solid rgba(245,248,246,0.35)' } : undefined}>
-            Jugar
-          </button>
-        </div>
-      </section>
+      </header>
 
-      <p className="muted">Hola, {profileName}</p>
+      <div className="stack">
+        {live ? (
+          <button className="btn btn-primary" onClick={resumeRound}>
+            Reanudar vuelta
+          </button>
+        ) : null}
+        <button className={live ? 'btn btn-ghost' : 'btn btn-primary'} onClick={() => setScreen('setup')}>
+          Jugar
+        </button>
+      </div>
 
       {last ? (
         <>
@@ -53,10 +51,12 @@ export function Home() {
       )}
 
       <h2 className="section-title">Cómo funciona</h2>
-      <p className="note">
-        Una sola tarjeta. Stroke, Putting King, Chaos Golf y tus reglas custom se calculan solas.
-        Los Social Games no son golf oficial.
-      </p>
+      <div className="card">
+        <p className="note" style={{ margin: 0 }}>
+          Una sola tarjeta. Stroke, Putting King, Chaos Golf y tus reglas custom se calculan solas.
+          Los Social Games no son golf oficial.
+        </p>
+      </div>
     </div>
   )
 }
