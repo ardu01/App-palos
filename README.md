@@ -27,3 +27,5 @@ MVP jugable en el móvil (añadir a pantalla de inicio como PWA):
 - Historial local (offline)
 
 Los Social Games están etiquetados como no oficiales.
+
+Chrome del prototipo: **Fairway 4.x** light glass iOS (tokens de `ardu01/app-golf` `:root`). Fondo `#F2F2F7`, acento negro, SF Pro / sistema, tab bar 49 px. La copy de producto sigue en español.
