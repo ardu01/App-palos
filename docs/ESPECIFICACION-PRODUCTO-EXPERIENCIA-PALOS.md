@@ -108,60 +108,62 @@ Por tanto:
 6. **Retención por memoria** — historial, rivalidades, récords; no daily streak punitivo.  
 7. **Mobile-first iPhone** — diseñar para 6.1–6.7"; adaptar tablet después.
 
-## 2.3 Design system — PALOS Visual Language
+## 2.3 Design system — chrome Fairway 4.x
 
-### Color (CSS variables conceptuales)
+**Decisión de Miguel:** PALOS adopta el look Fairway. Fairway no adopta el look PALOS. El producto (tarjeta única, social games, copy en español) no cambia; cambia el chrome.
+
+**Fuente de tokens:** [`ardu01/app-golf` `index.html` `:root`](https://github.com/ardu01/app-golf) — Fairway 4.0.1, monocromo glass claro (light glass iOS). El prototipo `palos-pwa` copia esas variables.
+
+**No es chrome de PALOS:** verde bosque, arena, Fraunces, Instrument Sans, textura linen, ni la marca oscura / iconografía de cabeza de hierro de golf-lab.
+
+### Color
 
 ```
---fairway-ink:        #0E1A14;   /* texto principal light */
---fairway-deep:       #143D2E;   /* verde bosque marca */
---fairway-mid:        #2F6B4F;
---fairway-soft:       #E7F0EA;
---sand:               #C6A96B;   /* acento metálico soberbio, no dorado chillón */
---clay:               #8B5E3C;
---fog:                #F3F5F2;   /* fondo light */
---mist:               #D7DDD8;
---night:              #0B1210;   /* fondo dark */
---night-elev:         #15201C;
---danger:             #B42318;
---success:            #1F7A4C;
---warning:            #B7791F;
+--bg-paper:           #F2F2F7;   /* fondo agrupado iOS */
+--bg-elevated:        #FFFFFF;
+--ink:                #000000;   /* acento y texto */
+--ink-secondary:      rgba(60,60,67,0.60);
+--glass-bg:           rgba(255,255,255,0.72);
+--glass-accent:       #000000;
+--glass-accent-pressed: #3A3A3C;
+--separator:          rgba(0,0,0,0.12);
+--fill:               rgba(120,120,128,0.12);
+--score-birdie:       #34C759;   /* semántico, no marca */
+--score-bogey:        #FF3B30;
+--danger:             #FF3B30;
 ```
 
-**Dirección visual:** verde bosque + tinta + arena. **Prohibido** púrpura genérico, crema terracotta AI-default, glow neon, pills saturadas.
+**Dirección visual:** light glass iOS. Fondo `#F2F2F7`, acento negro, materiales con blur. **Prohibido** como chrome por defecto: bosque/arena, Fraunces, púrpura genérico, glow neon, marca oscura de golf-lab.
 
-Fondo: textura sutil de papel/linen al 3–5% opacidad + gradiente vertical `fog → soft`. En dark: `night` con elevación `night-elev`.
+Materiales: cards y tab bar `background: rgba(255,255,255,0.72)` + `backdrop-filter: saturate(180%) blur(22–28px)` + hairline `0.5px`. Sombra suave `--glass-shadow`.
 
 ### Tipografía
 
-- **Display / marca:** *Fraunces* (serif expresiva, optical size) — logo, scores grandes, títulos de sección.  
-- **UI / cuerpo:** *Söhne* o *Instrument Sans* (sans geométrica contemporánea). Fallback sistema: SF Pro solo si licencia no disponible en prototipo; documentar swap.  
-- Escala: 12 / 14 / 16 / 20 / 28 / 40 / 56. Score del hoyo en **56–64**.  
-- Tracking ligeramente negativo en display (−1%).
+- **Display y UI:** SF Pro / sistema (`-apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui`). Display: `SF Pro Display` en títulos grandes y score.  
+- Escala iOS: 10 (tabs) / 13 / 15 / 17 / 22 / 34. Score del hoyo en **56–64**, peso 700, tabular nums.  
+- Tracking de large title ~`0.37px`; cuerpo ~`−0.24px` a `−0.4px`.
 
 ### Espaciado y layout
 
-- Base 4 pt. Escala: 4, 8, 12, 16, 24, 32, 48.  
-- Márgenes laterales 20 pt.  
-- Separación de secciones 32–48.  
-- **No cards en hero.** Cards solo cuando contienen interacción (selector de jugador, challenge chip editable).  
-- Radio: 8 (controles) / 12 (sheets) / 0 en elementos tipográficos de marca.
+- Base 4 pt. Márgenes laterales **16 pt** (`--pad-x`).  
+- Tab bar **49 px** (`--tab-h`), in-flow, icono + etiqueta 10 px. Inactivo `rgba(60,60,67,0.55)`; activo negro.  
+- Radio: 8 / 10 / 12 controles; chip y CTA 12; card 16; sheet 20.  
+- Cards de cristal solo para grupos de contenido (última vuelta, listas, ranking). Un CTA primario negro por pantalla.
 
 ### Iconografía
 
-- Línea 1.5 pt, esquinas afiladas suaves, estilo “instrumentación deportiva”.  
-- Set propio: tee, flag, putter arc, fairway wedge, birdie chevron.  
-- No emojis en UI primaria.
+- Trazo ~1.75 pt, `currentColor`, estilo SF Symbols (casa, play, reloj, cuadrícula).  
+- No emojis en UI primaria.  
+- No cabezas de hierro ni logotipo oscuro de golf-lab.
 
-### Modo claro / oscuro / sol
+### Modo claro / sol
 
 | Modo | Uso |
 |---|---|
-| Light (default campo) | Contraste alto, fondos claros, tinta oscura |
-| Dark | Casa / noche / batería |
-| Sun Boost | Light + +20% contraste + botones rellenos negros |
+| Light glass (default) | Fondo `#F2F2F7`, tinta negra, blur. Es el modo de campo. |
+| Sun Boost | El mismo light con botones rellenos negros (ya es el CTA Fairway). |
 
-Auto-sugerir Sun Boost si brillo > umbral (V1); toggle manual en MVP.
+Auto-sugerir un refuerzo de contraste si brillo > umbral queda para V1. Dark de marca no es el chrome por defecto.
 
 ### Componentes core
 
@@ -357,7 +359,7 @@ El motor ejecuta en orden:
 ├─────────────────────────────┤
 │  MIGUEL          vs PAR  −1 │  Player context (swipe players)
 │                             │
-│           4                 │  Score grande (Fraunces 64)
+│           4                 │  Score grande (SF Pro 56–64)
 │        golpes               │
 │                             │
 │  [ − ]     [ ScorePad ] [+] │  o teclado dedicado
@@ -1128,7 +1130,7 @@ Objetivo: prototipo iPhone usable en una vuelta real con amigos.
 
 ## 22.4 No bloqueantes estéticos
 
-Fraunces + Instrument Sans; si tipografías no licenciadas en prototipo, SF Pro + New York con tokens listos para swap.
+Chrome del prototipo: Fairway 4.x light glass (SF Pro / sistema, fondo `#F2F2F7`, acento negro, tab bar 49 px). Ver §2.3. No bosque/arena/Fraunces ni marca golf-lab.
 
 ---
 
